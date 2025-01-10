@@ -25,7 +25,7 @@ contract FundMe {
     mapping(address => uint256) private s_addressToAmountFunded;
     AggregatorV3Interface private s_priceFeed;
 
-    // Events (we have none!)
+    
 
     // Modifiers
     modifier onlyOwner() {
@@ -41,7 +41,7 @@ contract FundMe {
         i_owner = msg.sender;
     }
 
-    /// @notice Funds our contract based on the ETH/USD price
+    // Funds our contract based on the ETH/USD price
     function fund() public payable {
         require(msg.value.getConversionRate(s_priceFeed) >= MINIMUM_USD, "You need to spend more ETH!");
         // require(PriceConverter.getConversionRate(msg.value) >= MINIMUM_USD, "You need to spend more ETH!");
@@ -79,9 +79,9 @@ contract FundMe {
      */
 
     /**
-     * @notice Gets the amount that an address has funded
-     *  @param fundingAddress the address of the funder
-     *  @return the amount funded
+     *  Gets the amount that an address has funded
+      fundingAddress the address of the funder
+     *  return the amount funded
      */
     function getAddressToAmountFunded(address fundingAddress) public view returns (uint256) {
         return s_addressToAmountFunded[fundingAddress];
