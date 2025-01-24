@@ -29,7 +29,7 @@ contract FundMe {
 
     // Modifiers
     modifier onlyOwner() {
-        // require(msg.sender == i_owner);
+        require(msg.sender == i_owner);
         if (msg.sender != i_owner) revert FundMe__NotOwner();
         _;
     }
@@ -44,7 +44,7 @@ contract FundMe {
     // Funds our contract based on the ETH/USD price
     function fund() public payable {
         require(msg.value.getConversionRate(s_priceFeed) >= MINIMUM_USD, "You need to spend more ETH!");
-        // require(PriceConverter.getConversionRate(msg.value) >= MINIMUM_USD, "You need to spend more ETH!");
+        require(PriceConverter.getConversionRate(msg.value) >= MINIMUM_USD, "You need to spend more ETH!");
         s_addressToAmountFunded[msg.sender] += msg.value;
         s_funders.push(msg.sender);
     }
@@ -63,7 +63,7 @@ contract FundMe {
 
     function cheaperWithdraw() public onlyOwner {
         address[] memory funders = s_funders;
-        // mappings can't be in memory, sorry!
+        
         for (uint256 funderIndex = 0; funderIndex < funders.length; funderIndex++) {
             address funder = funders[funderIndex];
             s_addressToAmountFunded[funder] = 0;
